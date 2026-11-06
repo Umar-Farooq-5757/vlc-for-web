@@ -5,7 +5,7 @@ import Video from "./components/Video";
 
 function App() {
   return (
-    <div className="bg-[#fefefe] h-screen flex flex-col">
+    <div className="bg-[#efefef] h-screen flex flex-col">
       <Header />
       <Video />
       <Controls />

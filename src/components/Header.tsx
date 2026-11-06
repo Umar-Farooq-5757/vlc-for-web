@@ -12,7 +12,7 @@ const Header: React.FC = () => {
         onClick={() =>
           window.open("https://github.com/umar-farooq-5757/vlc-for-web")
         }
-        className="bg-[#ededed] text-sm font-semibold text-[#444] border border-[#bbb] px-3 py-0.5 hover:border-blue-600 hover:bg-blue-100">
+        className="bg-[#ddd] text-sm font-semibold text-[#444] border border-[#bbb] px-3 py-0.5 hover:border-blue-600 hover:bg-blue-100">
         GitHub
       </button>
     </header>

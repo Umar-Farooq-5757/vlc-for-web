@@ -1,48 +1,54 @@
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAppContext } from "../context/AppContext";
 
 const Video: React.FC = () => {
+  const { videoRef } = useAppContext();
   const [video, setVideo] = useState<string | null>(null);
-  // console.log(video);
+
+  useEffect(() => {
+    return () => {
+      if (video) URL.revokeObjectURL(video);
+    };
+  }, [video]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+
     if (file) {
-      // Create a local object URL for the uploaded video file
       const fileUrl = URL.createObjectURL(file);
       setVideo(fileUrl);
     }
+    e.target.value = "";
   };
 
   return (
-    <>
+    <div className="grow min-h-0 border-y-2 border-[#ddd] flex items-center justify-center relative">
       {!video && (
-        <div className="grow border-y-2 border-[#ddd] flex items-center justify-center px-3">
-          <label className="w-1/2 h-1/3 bg-[#ededed] text-[#444] border-[1.5px] border-dashed border-[#bbb]">
-            <div className="flex items-center justify-center flex-col h-full">
-              <p>No video selected</p>
-              <p>Click here to open a video</p>
-            </div>
-            <input
-              className="hidden"
-              type="file"
-              accept="video/*"
-              onChange={handleFileChange}
-            />
-          </label>
-        </div>
-      )}
-      {video && (
-        <div className="grow border-y-2 border-[#ddd] flex items-center justify-center">
-          <video
-            src={video}
-            playsInline
-            controls={false}
-            className="w-full h-full object-contain bg-black"
+        <label className="w-1/2 h-1/3 bg-[#ddd] text-[#444] border-[1.5px] border-dashed border-[#bbb] cursor-pointer">
+          <div className="flex items-center justify-center flex-col h-full">
+            <p>No video selected</p>
+            <p>Click here to open a video</p>
+          </div>
+
+          <input
+            className="hidden"
+            type="file"
+            accept="video/*"
+            onChange={handleFileChange}
           />
-        </div>
+        </label>
       )}
-    </>
+      <video
+        ref={videoRef}
+        src={video ?? undefined}
+        playsInline
+        controls={false}
+        className={`w-full h-full object-contain bg-black ${
+          video ? "block" : "hidden"
+        }`}
+      />
+    </div>
   );
 };
 
